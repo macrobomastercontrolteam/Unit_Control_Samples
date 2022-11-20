@@ -1,0 +1,10 @@
+{
+	"files.encoding": "gb2312",
+	"files.associations": {
+		"*.ipynb": "jupyter",
+		"*.tex": "latex",
+		"bsp_led.h": "c",
+		"cmath": "c",
+		"gpio.h": "c"
+	}
+}
