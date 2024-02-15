@@ -8,3 +8,10 @@
 - Sumobot_2020:
   - Written by Jinge Li for Sumobot competition in 2020 (not sure).
   - Type A Dev Board controls four M3508 BLDC motors
+- JointMotorTests:
+  - Written in 2024 as a collection of joint motor controlling helper functions
+  - Type C Dev Board
+  - Motors tested
+   - DM-J8006-2EC by DaMiao(达妙), http://www.dmbot.cn/
+   - MG6012E-i36 by KTech(瓴控科技), https://vi.aliexpress.com/item/1005005528411352.html
+   - RMD-L-9015-35T by MyActuator(脉塔), https://www.myactuator.com/product-page/rmd-l-9015

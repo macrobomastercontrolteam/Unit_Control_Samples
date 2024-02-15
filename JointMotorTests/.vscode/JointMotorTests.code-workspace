@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.encoding": "gb2312",
+		"files.associations": {
+			"stm32f4xx.h": "c",
+			"main.h": "c",
+			"struct_typedef.h": "c",
+			"bsp_can.h": "c",
+			"stm32f4xx_hal.h": "c",
+			"stm32f4xx_hal_conf.h": "c",
+			"test.h": "c",
+			"can_receive.h": "c",
+			"stm32f4xx_hal_can.h": "c",
+			"stm32f4xx_hal_def.h": "c",
+			"math.h": "c"
+		}
+	}
+}
