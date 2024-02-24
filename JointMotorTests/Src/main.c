@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "bsp_can.h"
 #include "CAN_receive.h"
+#include "pid.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,27 +49,18 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern motor_measure_t motor_measure[CHASSIS_ID_LAST];
+extern motor_measure_t motor_measure[GIMBAL_ID_LAST];
 
 fp32 torque1 = 0;
 fp32 velocity1 = 0;
 fp32 output_angle1 = 0;
 fp32 temperature1 = 0;
-fp32 leg_L_angle1 = 0;
-fp32 leg_L_angle4 = 0;
-fp32 leg_R_angle1 = 0;
-fp32 leg_R_angle4 = 0;
 void jscope_test(void)
 {
   torque1 = motor_measure[1].torque;
   velocity1 = motor_measure[1].velocity;
   output_angle1 = motor_measure[1].output_angle;
   temperature1 = motor_measure[1].temperature;
-
-  leg_L_angle1 = loop_fp32_constrain(PI - motor_measure[CHASSIS_ID_HIP_LF].output_angle, 0, 2 * PI);
-  leg_L_angle4 = rad_format(motor_measure[CHASSIS_ID_HIP_LB].output_angle);
-  leg_R_angle1 = loop_fp32_constrain(PI - motor_measure[CHASSIS_ID_HIP_RF].output_angle, 0, 2 * PI);
-  leg_R_angle4 = rad_format(motor_measure[CHASSIS_ID_HIP_RB].output_angle);
 }
 /* USER CODE END PV */
 
@@ -87,6 +79,9 @@ void SystemClock_Config(void);
  * @brief  The application entry point.
  * @retval int
  */
+
+float joint_target_pos[GIMBAL_ID_LAST] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -117,19 +112,15 @@ int main(void)
   can_filter_init();
   /* USER CODE END 2 */
 
-  // uint16_t ulCounter = 0;
   HAL_Delay(1000); // wait for motor to finish waking up and self-tests
 
-  // enable_all_motor_control(1);
-  // HAL_Delay(1);
+  enable_all_motor_control(1);
+  HAL_Delay(1);
 
-  // hip_motor_set_position(0,0,0,0,1.0f,0);
-  // HAL_Delay(1);
-  // drive_motor_set_torque(0,0);
-  // HAL_Delay(1);
+	arm_joints_set_position(joint_target_pos);
 
-  // HAL_Delay(2500);
-  // enable_all_motor_control(0);
+  HAL_Delay(2500);
+  enable_all_motor_control(0);
 
   // HAL_Delay(1000);
   // hip_motor_set_torque(1.5f, 1.5f, 1.5f, 1.5f);
@@ -147,15 +138,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // if (ulCounter <= 1000)
-    // {
-    //   hip_motor_set_torque(0,0,0,0);
-    //   ulCounter++;
-    //   HAL_Delay(2);
-    // }
-    hip_motor_set_torque(0.0f, 0.0f, 0.0f, 0.0f);
-    HAL_Delay(2);
+    //hip_motor_set_torque(0.0f, 0.0f, 0.0f, 0.0f);
     jscope_test();
+    HAL_Delay(2);
   }
   /* USER CODE END 3 */
 }
