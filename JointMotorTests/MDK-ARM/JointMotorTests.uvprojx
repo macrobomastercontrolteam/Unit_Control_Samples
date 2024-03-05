@@ -543,9 +543,19 @@
               <FileType>1</FileType>
               <FilePath>..\application\CAN_receive.c</FilePath>
             </File>
+            <File>
+              <FileName>user_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\user_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\pid.c</FilePath>
+            </File>
           </Files>
         </Group>
-        <Group>
+                <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
