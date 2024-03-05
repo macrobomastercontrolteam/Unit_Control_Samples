@@ -20,9 +20,9 @@
 #ifndef CAN_RECEIVE_H
 #define CAN_RECEIVE_H
 
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "struct_typedef.h"
 #include "stm32f4xx_hal.h"
@@ -57,7 +57,12 @@ typedef enum
     CAN_JOINT_MOTOR_3_4310_ID = 0x004,
     CAN_JOINT_MOTOR_4_4310_ID = 0x005,
     CAN_JOINT_MOTOR_5_4310_ID = 0x006,
-    CAN_JOINT_MOTOR_6_6020_ID = 0x20B,
+    CAN_JOINT_MOTOR_6_6020_RX_ID = 0x20B,
+
+    CAN_GIMBAL_CONTROLLER_POSITION_RX_ID = 0x114,
+	CAN_GIMBAL_CONTROLLER_ORIENTATION_RX_ID = 0x115,
+	CAN_GIMBAL_CONTROLLER_INDIVIDUAL_MOTOR_1_RX_ID = 0x116,
+	CAN_GIMBAL_CONTROLLER_INDIVIDUAL_MOTOR_2_RX_ID = 0x117,
 
 } can_msg_id_e;
 
@@ -82,7 +87,7 @@ typedef enum
     GIMBAL_ID_JOINT_4_4310 = 4,
     GIMBAL_ID_JOINT_5_4310 = 5,
     GIMBAL_ID_JOINT_6_6020 = 6,
-    GIMBAL_ID_LAST = GIMBAL_ID_JOINT_6_6020 + 1,
+    GIMBAL_ID_LAST,
 } chassis_motor_ID_e;
 
 typedef enum
@@ -107,7 +112,6 @@ typedef enum
     // Enineer Arm
     CAN_JOINT_1_MOTOR_6012_RX_ID = 0x282,
     CAN_JOINT_2_MOTOR_4010_RX_ID = 0x283,
-    CAN_JOINT_6_MOTOR_6020_RX_ID = 0x1FE,
 
 } can_other_msg_id_e;
 
@@ -166,8 +170,10 @@ uint8_t arm_joints_set_position(float *joint_target_pos_ptr);
 
 extern motor_measure_t motor_measure[GIMBAL_ID_LAST];
 
-// #ifdef __cplusplus
-// }
-// #endif
+void enable_all_motor_control(uint8_t _enable);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAN_RECEIVE_H */

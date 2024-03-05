@@ -50,13 +50,54 @@ extern "C" {
 #ifndef rad_format
 #define rad_format(Ang) loop_fp32_constrain((Ang), -PI, PI)
 #endif /* rad_format */
+
+#define GIMBAL_JOINT_0_ANGLE_MIN (-PI)
+#define GIMBAL_JOINT_0_ANGLE_MAX PI
+#define GIMBAL_JOINT_0_ANGLE_REST 0.0f
+#define GIMBAL_JOINT_0_RC_SEN ((GIMBAL_JOINT_0_ANGLE_MAX - GIMBAL_JOINT_0_ANGLE_MIN) / JOYSTICK_FULL_RANGE)
+
+#define GIMBAL_JOINT_1_ANGLE_MIN (-30.0f / 180.0f * PI)
+#define GIMBAL_JOINT_1_ANGLE_MAX (35.0f / 180.0f * PI)
+#define GIMBAL_JOINT_1_ANGLE_REST GIMBAL_JOINT_1_ANGLE_MAX
+#define GIMBAL_JOINT_1_RC_SEN ((GIMBAL_JOINT_1_ANGLE_MAX - GIMBAL_JOINT_1_ANGLE_MIN) / JOYSTICK_HALF_RANGE)
+
+#define GIMBAL_JOINT_2_ANGLE_MIN (-120.0f / 180.0f * PI)
+#define GIMBAL_JOINT_2_ANGLE_MAX 0.0f
+#define GIMBAL_JOINT_2_ANGLE_REST GIMBAL_JOINT_2_ANGLE_MIN
+#define GIMBAL_JOINT_2_RC_SEN ((GIMBAL_JOINT_2_ANGLE_MAX - GIMBAL_JOINT_2_ANGLE_MIN) / JOYSTICK_HALF_RANGE)
+
+#define GIMBAL_JOINT_3_ANGLE_MIN (-80.0f / 180.0f * PI)
+#define GIMBAL_JOINT_3_ANGLE_MAX (80.0f / 180.0f * PI)
+#define GIMBAL_JOINT_3_ANGLE_REST 0.0f
+#define GIMBAL_JOINT_3_RC_SEN ((GIMBAL_JOINT_3_ANGLE_MAX - GIMBAL_JOINT_3_ANGLE_MIN) / JOYSTICK_FULL_RANGE)
+
+#define GIMBAL_JOINT_4_ANGLE_MIN (-0.5f * PI)
+#define GIMBAL_JOINT_4_ANGLE_MAX (0.5f * PI)
+#define GIMBAL_JOINT_4_ANGLE_REST 0.0f
+#define GIMBAL_JOINT_4_RC_SEN ((GIMBAL_JOINT_4_ANGLE_MAX - GIMBAL_JOINT_4_ANGLE_MIN) / JOYSTICK_FULL_RANGE)
+
+#define GIMBAL_JOINT_5_ANGLE_MIN (10.0f / 180.0f * PI)
+#define GIMBAL_JOINT_5_ANGLE_MAX (170.0f / 180.0f * PI)
+#define GIMBAL_JOINT_5_ANGLE_REST (90.0f / 180.0f * PI)
+#define GIMBAL_JOINT_5_RC_SEN ((GIMBAL_JOINT_5_ANGLE_MAX - GIMBAL_JOINT_5_ANGLE_MIN) / JOYSTICK_FULL_RANGE)
+
+#define GIMBAL_JOINT_6_ANGLE_MIN (-PI)
+#define GIMBAL_JOINT_6_ANGLE_MAX PI
+#define GIMBAL_JOINT_6_ANGLE_REST 0.0f
+#define GIMBAL_JOINT_6_RC_SEN ((GIMBAL_JOINT_6_ANGLE_MAX - GIMBAL_JOINT_6_ANGLE_MIN) / JOYSTICK_FULL_RANGE)
+
+typedef struct
+{
+  // range is [-PI, PI]
+  fp32 joint_target_pos[7];
+} engineer_robot_t;
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 fp32 loop_fp32_constrain(fp32 Input, fp32 minValue, fp32 maxValue);
 /* USER CODE BEGIN EFP */
-
+extern engineer_robot_t engineer_robot;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

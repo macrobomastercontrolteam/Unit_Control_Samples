@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": ".."
+			"path": "../.."
 		}
 	],
 	"settings": {
@@ -17,7 +17,13 @@
 			"can_receive.h": "c",
 			"stm32f4xx_hal_can.h": "c",
 			"stm32f4xx_hal_def.h": "c",
-			"math.h": "c"
+			"math.h": "c",
+			"string": "c",
+			"array": "c",
+			"iterator": "c",
+			"string_view": "c",
+			"vector": "c",
+			"user_lib.h": "c"
 		}
 	}
 }

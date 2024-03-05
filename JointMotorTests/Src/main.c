@@ -29,6 +29,7 @@
 #include "bsp_can.h"
 #include "CAN_receive.h"
 #include "pid.h"
+#include "user_lib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,12 +68,13 @@ void jscope_test(void)
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void engineer_robot_init(void);
+void robot_arm_reset_position(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+engineer_robot_t engineer_robot;
 /* USER CODE END 0 */
 
 /**
@@ -80,7 +82,6 @@ void SystemClock_Config(void);
  * @retval int
  */
 
-float joint_target_pos[GIMBAL_ID_LAST] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 
 int main(void)
 {
@@ -112,22 +113,12 @@ int main(void)
   can_filter_init();
   /* USER CODE END 2 */
 
-  HAL_Delay(1000); // wait for motor to finish waking up and self-tests
+  HAL_Delay(500); // wait for motor to finish waking up and self-tests
 
   enable_all_motor_control(1);
   HAL_Delay(1);
 
-	arm_joints_set_position(joint_target_pos);
-
-  HAL_Delay(2500);
-  enable_all_motor_control(0);
-
-  // HAL_Delay(1000);
-  // hip_motor_set_torque(1.5f, 1.5f, 1.5f, 1.5f);
-  // HAL_Delay(2000);
-  // hip_motor_set_torque(-1.5f, -1.5f, -1.5f, -1.5f);
-  // HAL_Delay(2000);
-  // hip_motor_set_torque(0.0f, 0.0f, 0.0f, 0.0f);
+  engineer_robot_init();
 
   // mixed c & cpp compilation test
   // foo(42);
@@ -136,13 +127,37 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+    engineer_robot.joint_target_pos[0] = fp32_constrain(engineer_robot.joint_target_pos[0], GIMBAL_JOINT_0_ANGLE_MIN, GIMBAL_JOINT_0_ANGLE_MAX);
+		engineer_robot.joint_target_pos[1] = fp32_constrain(engineer_robot.joint_target_pos[1], GIMBAL_JOINT_1_ANGLE_MIN, GIMBAL_JOINT_1_ANGLE_MAX);
+		engineer_robot.joint_target_pos[2] = fp32_constrain(engineer_robot.joint_target_pos[2], GIMBAL_JOINT_2_ANGLE_MIN, GIMBAL_JOINT_2_ANGLE_MAX);
+		engineer_robot.joint_target_pos[3] = fp32_constrain(engineer_robot.joint_target_pos[3], GIMBAL_JOINT_3_ANGLE_MIN, GIMBAL_JOINT_3_ANGLE_MAX);
+		engineer_robot.joint_target_pos[4] = fp32_constrain(engineer_robot.joint_target_pos[4], GIMBAL_JOINT_4_ANGLE_MIN, GIMBAL_JOINT_4_ANGLE_MAX);
+		engineer_robot.joint_target_pos[5] = fp32_constrain(engineer_robot.joint_target_pos[5], GIMBAL_JOINT_5_ANGLE_MIN, GIMBAL_JOINT_5_ANGLE_MAX);
+		engineer_robot.joint_target_pos[6] = fp32_constrain(engineer_robot.joint_target_pos[6], GIMBAL_JOINT_6_ANGLE_MIN, GIMBAL_JOINT_6_ANGLE_MAX);
 
+		arm_joints_set_position(engineer_robot.joint_target_pos);
     /* USER CODE BEGIN 3 */
-    //hip_motor_set_torque(0.0f, 0.0f, 0.0f, 0.0f);
     jscope_test();
     HAL_Delay(2);
   }
   /* USER CODE END 3 */
+}
+
+void engineer_robot_init(void)
+{
+	robot_arm_reset_position();
+	enable_all_motor_control(1);
+}
+
+void robot_arm_reset_position(void)
+{
+    engineer_robot.joint_target_pos[0] = GIMBAL_JOINT_0_ANGLE_REST;
+    engineer_robot.joint_target_pos[1] = GIMBAL_JOINT_1_ANGLE_REST;
+    engineer_robot.joint_target_pos[2] = GIMBAL_JOINT_2_ANGLE_REST;
+    engineer_robot.joint_target_pos[3] = GIMBAL_JOINT_3_ANGLE_REST;
+    engineer_robot.joint_target_pos[4] = GIMBAL_JOINT_4_ANGLE_REST;
+    engineer_robot.joint_target_pos[5] = GIMBAL_JOINT_5_ANGLE_REST;
+    engineer_robot.joint_target_pos[6] = GIMBAL_JOINT_6_ANGLE_REST;
 }
 
 /**
