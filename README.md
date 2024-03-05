@@ -8,6 +8,10 @@
 - Sumobot_2020:
   - Written by Jinge Li for Sumobot competition in 2020 (not sure).
   - Type A Dev Board controls four M3508 BLDC motors
+  - Timer configs
+    - TIM1: unused
+    - TIM4: used to generate usDelay; was not included in stm32cubemx config but added manually
+    - TIM6: can be changed to systick
 - JointMotorTests:
   - Written in 2024 as a collection of joint motor controlling helper functions
   - Type C Dev Board
