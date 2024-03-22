@@ -191,11 +191,11 @@ void decode_6012_motor_torque_feedback(uint8_t *data, uint8_t bMotorId)
 {
 	int16_t iq_int = (data[3] << 8) | data[2];    // A
 	int16_t v_int = (data[5] << 8) | data[4];     // deg/s
-	uint16_t p_uint = ((data[7] << 8) | data[6]); // 16bit abs encoder
+	int16_t p_int = ((data[7] << 8) | data[6]); // 16bit abs encoder
 
 	motor_measure[bMotorId].torque = ((fp32)iq_int) / MOTOR_6012_CMD_TO_TORQUE_RATIO;
 	motor_measure[bMotorId].velocity = ((fp32)v_int) / 36.0f / 180.0f * PI;
-	motor_measure[bMotorId].output_angle = ((fp32)p_uint) / (1 << 16) * 2.0f * PI;
+	motor_measure[bMotorId].output_angle = ((fp32)p_int) / (1 << 16) * 2.0f * PI;
 	motor_measure[bMotorId].temperature = data[1];
 
 	switch (bMotorId)
